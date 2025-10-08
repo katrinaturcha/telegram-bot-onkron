@@ -6,6 +6,7 @@ from aiogram import Bot, Dispatcher, types
 from aiogram.utils import executor
 from aiogram.types import ReplyKeyboardMarkup
 from dotenv import load_dotenv
+import json
 
 # === Загружаем токен ===
 load_dotenv()
@@ -17,7 +18,10 @@ dp = Dispatcher(bot)
 # === Настройка доступа к Google Sheets ===
 scope = ["https://spreadsheets.google.com/feeds",
          "https://www.googleapis.com/auth/drive"]
-creds = ServiceAccountCredentials.from_json_keyfile_name("creds.json", scope)
+
+creds_json = json.loads(os.getenv("CREDS_JSON"))
+creds = ServiceAccountCredentials.from_json_keyfile_dict(creds_json, scope)
+
 client = gspread.authorize(creds)
 
 # Название таблицы (введи своё!)
