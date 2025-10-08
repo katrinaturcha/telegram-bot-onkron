@@ -1,0 +1,15 @@
+# Виртуальное окружение
+.venv/
+venv/
+__pycache__/
+
+# Конфиденциальные файлы
+.env
+creds.json
+
+# IDE
+.idea/
+.DS_Store
+
+# Прочее
+*.log
