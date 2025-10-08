@@ -1,0 +1,9 @@
+services:
+  - type: web
+    name: telegram-support-bot
+    env: python
+    plan: free
+    region: frankfurt
+    buildCommand: "pip install -r requirements.txt"
+    startCommand: "python main.py"
+    pythonVersion: 3.11.9
