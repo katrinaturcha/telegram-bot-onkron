@@ -3,4 +3,4 @@ services:
     name: telegram-support-bot
     env: docker
     plan: free
-    region: frankfurt
+    region: oregon
