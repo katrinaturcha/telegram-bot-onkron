@@ -1,9 +1,6 @@
 services:
   - type: web
     name: telegram-support-bot
-    env: python
+    env: docker
     plan: free
     region: frankfurt
-    pythonVersion: 3.11.9
-    buildCommand: "pip install --upgrade pip && pip install -r requirements.txt"
-    startCommand: "python main.py"
