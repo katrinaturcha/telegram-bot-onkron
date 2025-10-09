@@ -16,6 +16,11 @@ import requests
 import pytz
 from datetime import datetime
 
+import requests
+import os
+
+BOT_TOKEN = os.getenv("BOT_TOKEN")  # или твоя переменная
+requests.get(f"https://api.telegram.org/bot{BOT_TOKEN}/deleteWebhook")
 
 # === Загружаем токен ===
 load_dotenv()
