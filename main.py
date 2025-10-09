@@ -40,7 +40,7 @@ creds = Credentials.from_service_account_info(creds_json, scopes=scope)
 client = gspread.authorize(creds)
 
 # === 3. Проверяем подключение к таблице ===
-SHEET_NAME = os.getenv("SHEET_NAME", "TelegramBot_Data")  # можно переопределить в Render
+SHEET_NAME = os.getenv("SHEET_NAME", "Telegram Bot Requests")  # можно переопределить в Render
 try:
     sheet = client.open(SHEET_NAME).sheet1
     print(f"✅ Подключено к таблице '{SHEET_NAME}' успешно!")
