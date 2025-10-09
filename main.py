@@ -11,6 +11,8 @@ from google.oauth2.service_account import Credentials
 import gspread
 import threading
 from http.server import BaseHTTPRequestHandler, HTTPServer
+import time
+import requests
 
 
 # === Загружаем токен ===
