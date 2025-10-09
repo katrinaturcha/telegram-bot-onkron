@@ -18,13 +18,13 @@ TOKEN = os.getenv("BOT_TOKEN")
 bot = Bot(token=TOKEN)
 dp = Dispatcher(bot)
 
-creds = Credentials.from_service_account_file("/app/creds.json", scopes=[
+creds = Credentials.from_service_account_file("/app/creds_new.json", scopes=[
     "https://www.googleapis.com/auth/spreadsheets",
     "https://www.googleapis.com/auth/drive"
 ])
 
 client = gspread.authorize(creds)
-sheet = client.open("TelegramBot_Data").sheet1
+sheet = client.open("Telegram Bot Requests").sheet1
 print("✅ Всё подключилось через Secret File")
 
 # === Главное меню ===
