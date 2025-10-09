@@ -169,17 +169,6 @@ async def send_price(msg: types.Message):
     else:
         await msg.answer("⚠️ Файл invoice.pdf не найден в проекте.", reply_markup=main_kb)
 
-PORT = int(os.environ.get("PORT", 10000))
-
-def run_dummy_server():
-    class DummyHandler(BaseHTTPRequestHandler):
-        def do_GET(self):
-            self.send_response(200)
-            self.end_headers()
-            self.wfile.write(b"Bot is alive")
-    HTTPServer(('0.0.0.0', PORT), DummyHandler).serve_forever()
-
-threading.Thread(target=run_dummy_server, daemon=True).start()
 
 if __name__ == "__main__":
     executor.start_polling(dp, skip_updates=True)
