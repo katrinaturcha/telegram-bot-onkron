@@ -7,6 +7,7 @@ from aiogram.utils import executor
 from aiogram.types import ReplyKeyboardMarkup
 from dotenv import load_dotenv
 import json
+from google.oauth2.service_account import Credentials
 
 # === Загружаем токен ===
 load_dotenv()
@@ -20,9 +21,9 @@ scope = ["https://spreadsheets.google.com/feeds",
          "https://www.googleapis.com/auth/drive"]
 
 creds_json = json.loads(os.getenv("CREDS_JSON"))
-creds = ServiceAccountCredentials.from_json_keyfile_dict(creds_json, scope)
-
+creds = Credentials.from_service_account_info(creds_json, scopes=scope)
 client = gspread.authorize(creds)
+
 
 # Название таблицы (введи своё!)
 SHEET_NAME = "Telegram Bot Requests"
