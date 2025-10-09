@@ -8,6 +8,8 @@ from aiogram.types import ReplyKeyboardMarkup
 from dotenv import load_dotenv
 import json
 from google.oauth2.service_account import Credentials
+import gspread
+
 
 # === Загружаем токен ===
 load_dotenv()
@@ -21,6 +23,7 @@ scope = ["https://spreadsheets.google.com/feeds",
          "https://www.googleapis.com/auth/drive"]
 
 creds_json = json.loads(os.getenv("CREDS_JSON"))
+creds_json["private_key"] = creds_json["private_key"].replace("\\n", "\n")  
 creds = Credentials.from_service_account_info(creds_json, scopes=scope)
 client = gspread.authorize(creds)
 
