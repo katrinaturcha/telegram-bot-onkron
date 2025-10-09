@@ -168,7 +168,30 @@ async def send_price(msg: types.Message):
         await msg.answer("✅ Прайс-лист отправлен!", reply_markup=main_kb)
     else:
         await msg.answer("⚠️ Файл invoice.pdf не найден в проекте.", reply_markup=main_kb)
+PORT = int(os.environ.get("PORT", 10000))
+URL = f"http://localhost:{PORT}"  # внутренний адрес контейнера
 
+def run_dummy_server():
+    class DummyHandler(BaseHTTPRequestHandler):
+        def do_GET(self):
+            self.send_response(200)
+            self.end_headers()
+            self.wfile.write(b"Bot is alive")
+    HTTPServer(('0.0.0.0', PORT), DummyHandler).serve_forever()
+
+def self_ping():
+    """Периодически пингует сам себя, чтобы Render не заснул."""
+    while True:
+        try:
+            requests.get(URL, timeout=5)
+            print(f"🌐 Self-ping to {URL} OK")
+        except Exception as e:
+            print(f"⚠️ Self-ping failed: {e}")
+        time.sleep(600)  # 10 минут
+
+# Запуск фоновых потоков
+threading.Thread(target=run_dummy_server, daemon=True).start()
+threading.Thread(target=self_ping, daemon=True).start()
 
 if __name__ == "__main__":
     executor.start_polling(dp, skip_updates=True)
