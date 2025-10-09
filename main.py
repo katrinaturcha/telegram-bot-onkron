@@ -9,6 +9,8 @@ from dotenv import load_dotenv
 import json
 from google.oauth2.service_account import Credentials
 import gspread
+import threading
+from http.server import BaseHTTPRequestHandler, HTTPServer
 
 
 # === Загружаем токен ===
