@@ -18,19 +18,38 @@ TOKEN = os.getenv("BOT_TOKEN")
 bot = Bot(token=TOKEN)
 dp = Dispatcher(bot)
 
-# === Настройка доступа к Google Sheets ===
-scope = ["https://spreadsheets.google.com/feeds",
-         "https://www.googleapis.com/auth/drive"]
+creds_str = os.getenv("CREDS_JSON")
 
-creds_json = json.loads(os.getenv("CREDS_JSON"))
-creds_json["private_key"] = creds_json["private_key"].replace("\\n", "\n")  
+if not creds_str:
+    raise ValueError("❌ Переменная CREDS_JSON не найдена в окружении!")
+
+# Преобразуем строку в словарь
+try:
+    creds_json = json.loads(creds_str)
+except json.JSONDecodeError as e:
+    print("❌ Ошибка в формате CREDS_JSON:", e)
+    raise
+
+# === 2. Настраиваем доступ к Google Sheets ===
+scope = [
+    "https://www.googleapis.com/auth/spreadsheets",
+    "https://www.googleapis.com/auth/drive"
+]
+
 creds = Credentials.from_service_account_info(creds_json, scopes=scope)
 client = gspread.authorize(creds)
 
+# === 3. Проверяем подключение к таблице ===
+SHEET_NAME = os.getenv("SHEET_NAME", "TelegramBot_Data")  # можно переопределить в Render
+try:
+    sheet = client.open(SHEET_NAME).sheet1
+    print(f"✅ Подключено к таблице '{SHEET_NAME}' успешно!")
+except gspread.SpreadsheetNotFound:
+    print(f"❌ Таблица '{SHEET_NAME}' не найдена! Проверь название и доступы.")
+    raise
 
-# Название таблицы (введи своё!)
-SHEET_NAME = "Telegram Bot Requests"
-sheet = client.open(SHEET_NAME).sheet1
+# === 4. Основная логика бота (пример) ===
+print("🤖 Telegram bot и Google Sheets готовы к работе!")
 
 # === Главное меню ===
 main_kb = ReplyKeyboardMarkup(resize_keyboard=True)
