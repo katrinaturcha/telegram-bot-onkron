@@ -13,6 +13,8 @@ import threading
 from http.server import BaseHTTPRequestHandler, HTTPServer
 import time
 import requests
+import pytz
+from datetime import datetime
 
 
 # === Загружаем токен ===
@@ -35,13 +37,13 @@ print("✅ Всё подключилось через Secret File")
 main_kb = ReplyKeyboardMarkup(resize_keyboard=True)
 main_kb.add("📞 Заказать обратный звонок", "🏆 Участвую в конкурсе", "📦 Пришлите прайс")
 
-# === Функция записи в Google Sheets ===
+MSK = pytz.timezone("Europe/Moscow")
 # === Функция записи в Google Sheets ===
 def save_to_gsheet(user_id, username, phone, photo_url, req_type):
-    # Новый порядок столбцов:
+    now_msk = datetime.now(MSK).strftime("%Y-%m-%d %H:%M:%S")
     # timestamp | user_id | username | request_type | phone | photo_url
     sheet.append_row([
-        datetime.now().strftime("%Y-%m-%d %H:%M:%S"),
+        now_msk,
         user_id,
         username or "",
         req_type,
